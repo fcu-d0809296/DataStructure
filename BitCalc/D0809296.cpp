@@ -41,10 +41,11 @@ int main() {
 		//printf("%d\n",binAns.dec);
 		//binAns.PrintBin();
 		if(binAns.dec<0){
-			binAns.dec +=1;
+			//binAns.dec +=1;
 			binAns.DecToBin();
-			
+			//binAns.PrintBin();
 			int index=binAns.FindFirstOne();
+			//printf("\n%d\n",index);
 			binAns.NotBin(index+1, MAX-1);
 			binAns.PrintBin();
 			
@@ -101,7 +102,10 @@ void MyBin::DecToBin() {
 		i++;
 		temp = temp/2;
 	}
-	//for(i=MAX-1; i>=0; i--)	printf("%d",bin[i]);
+	for(i=0; i<MAX; i++) {
+		if(binArr[i] == -1) binArr[i] = 1;
+	}
+
 }
 int CalcDec(int num1, char opr, int num2) {
 	int temp;
@@ -125,9 +129,8 @@ void MyBin::NotBin(int begin, int end) {
 }
 //========================
 int MyBin::FindFirstOne() {
-	int index;
 	for(int i=0;i<MAX;i++) {
-		if(binArr[i]==1)
+		if(binArr[i]==1||binArr[i]==-1)
 			return i;
 	}
 	return -1;
