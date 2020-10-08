@@ -14,12 +14,13 @@ struct myCal {
 	int DiffTime();
 	int GetWeekDay();
 	void PrintMonth();
+	void PrintYear();
 };
 
 ///////////////////////////////
 int main() {
 	myCal d("date.txt");
-	d.PrintMonth();
+	d.PrintYear();
 	
 }
 //////////////////////////////
@@ -81,4 +82,24 @@ void myCal::PrintMonth() {
 		if( (i+j)%7 ==0 ) printf("\n");
 	}
 	if(inDate.month==2 && isLeap(inDate.year)) printf("%10d",29);
+}
+
+void myCal::PrintYear() {
+	int monthday[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+	myCal temp(inDate.year,1,1);
+	
+	int i,j,l;
+	for(l=0; l<12; l++) {
+		int weekday = temp.GetWeekDay();
+		printf("Month: %d\n",temp.inDate.month);
+		printf("%10s %10s %10s %10s %10s %10s %10s\n","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+		for(i=0; i<weekday; i++) printf("%10s","");
+		for(j=1; j<=monthday[temp.inDate.month-1]; j++) {
+			printf("%10d",j);
+			if( (i+j)%7 ==0 ) printf("\n");
+		}
+		if(inDate.month==2 && isLeap(inDate.year)) printf("%10d",29);
+		printf("\n---------------------------------------------------\n");
+		temp.inDate.month +=1;
+	}
 }
