@@ -12,6 +12,7 @@ struct myCal {
 	myCal(int,int,int);
 	int isLeap(int);
 	int DiffTime();
+	int DiffTime(myTime);
 	int GetWeekDay();
 	void PrintMonth();
 	void PrintYear();
@@ -20,8 +21,11 @@ struct myCal {
 ///////////////////////////////
 int main() {
 	myCal d("date.txt");
-	d.PrintYear();
-	
+	//printf("%d.%d.%d %d.%d.%d\n",d.inDate.year,d.inDate.month,d.inDate.day,e.inDate.year,e.inDate.month,e.inDate.day);
+	/**
+	myCal e(2020,10,1);
+	printf("%d",d.DiffTime(e.inDate));
+	**/
 }
 //////////////////////////////
 myCal::myCal() {
@@ -33,6 +37,7 @@ myCal::myCal(char *file) {
 	fscanf(fptr,"%d",&inDate.year);
 	fscanf(fptr,"%d",&inDate.month);
 	fscanf(fptr,"%d",&inDate.day);
+	fclose(fptr);
 }
 
 myCal::myCal(int y, int m, int d) {
@@ -62,6 +67,73 @@ int myCal::DiffTime() {
 		if(i==2 && isLeap(inDate.year)) totalDays++;
 	}
 	totalDays +=inDate.day;
+	return totalDays;
+}
+
+int myCal::DiffTime(myTime target) {
+	myTime begin,end;
+	
+	if(inDate.year > target.year) {
+		end = inDate;
+		begin = target;
+	}else if(inDate.year < target.year) {
+		end = target;
+		begin = inDate;
+	}else if(inDate.year == target.year) {
+		if(inDate.month > target.month) {
+			end = inDate;
+			begin = target;
+		}else if(inDate.month < target.month) {
+			end = target;
+			begin = inDate;
+		}else if(inDate.month == target.month) {
+			
+			if(inDate.day > target.day) {
+				end = inDate;
+				begin = target;
+				
+			}else if(inDate.day < target.day) {
+				end = target;
+				begin = inDate;
+				
+			}
+		}
+	}
+	int totalDays = 0;
+	int i;
+	int monthday[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+	if(begin.year != end.year) {
+		for(i=begin.year+1; i<end.year; i++) {
+			if(isLeap(i)) totalDays +=366;
+			else totalDays +=365;
+		}
+		
+		for(i=begin.month; i<12; i++) {
+			totalDays += monthday[i-1];
+			if(i==2 && isLeap(end.year)) totalDays++;
+		}
+		for(i=1; i<end.month; i++) {
+			totalDays += monthday[i-1];
+			if(i==2 && isLeap(end.year)) totalDays++;
+		}
+		
+		totalDays = totalDays + (monthday[begin.month-1] - begin.day);
+		totalDays += end.day;
+		
+	} else {
+		
+		if(begin.month != end.month) {
+			for(i=begin.month+1; i<end.month; i++) {
+				totalDays += monthday[i-1];
+				if(i==2 && isLeap(end.year)) totalDays++;
+			}
+			totalDays = totalDays + (monthday[begin.month-1] - begin.day);
+			totalDays += end.day;
+		} else {
+			totalDays = end.day - begin.day;
+		}
+	}
+	totalDays += 1;//current day
 	return totalDays;
 }
 
