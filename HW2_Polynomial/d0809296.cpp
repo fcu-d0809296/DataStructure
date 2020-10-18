@@ -24,7 +24,17 @@ int cpr(int ,int);
 
 int main() {
   int i,input;
-  while (1) {
+  
+//	MyPoly poly1("B1.txt");
+//  MyPoly poly2("B2.txt");
+//  
+//  poly1.ShowPoly();
+//  scanf("%d",&i);
+//  poly1.Remove(i);
+//  poly1.ShowPoly();
+	MyPoly poly1,poly2;
+	while (1) {
+		printf("---------------------------------------------\n");
   	printf( 
 		"1. Read Polynomial\n"
 		"2. Show\n"
@@ -39,25 +49,30 @@ int main() {
 		scanf("%d",&input);
 		printf("\n");
 		switch(input) {
+			
 			case 1: {
-				MyPoly poly1("B1.txt");
-  			MyPoly poly2("B2.txt");
+				MyPoly polytemp1("B1.txt");
+				MyPoly polytemp2("B2.txt");
+				poly1 = polytemp1;
+  			poly2 = polytemp2;
 				break;
 			}
 			case 2: {
 				poly1.ShowPoly();
 				poly2.ShowPoly();
+
 				break;
 			}
 			case 3: {			
 			  MyPoly poly3 = poly1.Add(poly2);
 			  poly3.ShowPoly();
+
 				break;
 			}
 			case 4: {
 				int num;
-				printf("Enter a NUM\n")
-				scanf("%d",num);
+				printf("Enter a NUM\n");
+				scanf("%d",&num);
 				poly1.SingleMult(num);
 				poly1.ShowPoly();
 				break;
@@ -67,16 +82,21 @@ int main() {
 				break;
 			}
 			case 6: {
-				printf("Enter c and e:\n")
+				float c;
+				int e;
+				printf("Enter c and e:\n");
 				scanf("%f %d",&c,&e);
-				poly1.Attach(c,e);
+				MyPoly temp;
+				temp.Attach(c,e);
+				temp.ShowPoly();
+				poly1 = poly1.Add(temp);
 				poly1.ShowPoly();
 				break;
 			}
 			case 7: {
 				int num;
-				printf("Enter a NUM\n")
-				scanf("%d",num);
+				printf("Enter a Expon. num\n");
+				scanf("%d",&num);
 				poly1.Remove(num);
 				poly1.ShowPoly();
 				break;
@@ -84,10 +104,16 @@ int main() {
 			case 8: {
 			  MyPoly poly4 = poly1.Add(poly2);
 			  poly4.ShowPoly();
+			  
 				break;
 			}
+			case -1: {
+				return 0;
+			}
 		}
+		
 	}
+	
 }
 
 MyPoly::MyPoly() {
@@ -152,17 +178,21 @@ void MyPoly::Attach(float c, int e) {
 }
 
 void MyPoly::Remove(int e) {
-  int i = 0;
+  int i = 0,flag=1;
   while(i < size) {
-    if(terms[i].expon == e)
+    if(terms[i].expon == e) {
+    	flag = 0;	
       break;
+    }
     i++;
   }
+  if(flag) return;
   while(i < size) {
     terms[i] = terms[i+1];
     i++;
   }
   size --;
+
 }
 
 void MyPoly::SingleMult(int n) {
