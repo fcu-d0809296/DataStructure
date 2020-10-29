@@ -30,10 +30,19 @@ struct LongInt
 int main()
 {
 	srand(time(0));
-	LongInt a;
+	LongInt a("9999999999999999999999999999999999999999");
 	a.Show();
-	//LongInt b("123456789012345678901234567890");
-	//b.Show();
+	LongInt b("3333333333333333333333333333333333333333");
+	b.Show();
+	LongInt c = a.Div(b);
+	c.Show();
+//	LongInt b("55555555555555555555");
+//	b.Show();
+//	LongInt c;
+//	c = a.Multi(b);
+//	c.Show();
+//	LongInt b("123456789012345678901234567890");
+//	b.Show();
 	return 0;
 }
 
@@ -65,18 +74,15 @@ LongInt::LongInt(int num)
 	}
 }
 //=============================
-LongInt::LongInt(char* str)
+LongInt::LongInt(const char* str)
 {
 	int i=0;
 	IsPositive=true;
 	int count=0;
+	Zero();
 	while(str[count]!='\0')
 		count++;
 
-	for(i=0;i<MAX;i++)
-	{
-		MyInt[i]=0;
-	}
 	i=0;
 	while(str[i]!='\0')
 	{
@@ -96,11 +102,11 @@ void LongInt::Show()
 	
 	while(MyInt[headIndex] == 0)
 		headIndex--;
-	
-	if(headIndex > 19)
-		headIndex = 40;
+	printf("%d\n",headIndex);
+	if(headIndex > MAX -1)
+		headIndex = MAXLONG;
 	else
-		headIndex = 20;
+		headIndex = MAX;
 
 	for(int i=headIndex-1;i>=0;i--)
 		printf("%d",MyInt[i]);
@@ -227,7 +233,8 @@ LongInt LongInt::operator-(LongInt b)
 	return temp;
 }
 //=============================
-LongInt LongInt::Multi(LongInt){
+LongInt LongInt::Multi(LongInt b)
+{
 	LongInt temp;
 	for(int i=0;i<MAX;i++)
 	{
@@ -245,3 +252,26 @@ LongInt LongInt::Multi(LongInt){
 	return temp;
 }
 //=============================
+LongInt LongInt::Div(LongInt b)
+{
+	LongInt temp = *this;
+	LongInt result;
+	LongInt one("1");
+	result.Zero();
+	while(temp>b || temp==b){
+		temp = temp-b;
+		result = result+one;
+	}
+	if(result<one){
+		return 0;
+	}else{
+		return result;
+	}
+}
+
+
+
+
+
+
+
