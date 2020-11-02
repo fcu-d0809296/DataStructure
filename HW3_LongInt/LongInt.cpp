@@ -30,11 +30,11 @@ struct LongInt
 int main()
 {
 	srand(time(0));
-	LongInt a("9999999999999999999999999999999999999999");
-	a.Show();
-	LongInt b("3333333333333333333333333333333333333333");
-	b.Show();
-	LongInt c = a.Div(b);
+	LongInt b("9999999999999999999999999999999999999999");
+
+	LongInt a("-3333333333333333333333333333333333333333");
+
+	LongInt c = a.Multi(b);
 	c.Show();
 //	LongInt b("55555555555555555555");
 //	b.Show();
@@ -74,15 +74,18 @@ LongInt::LongInt(int num)
 	}
 }
 //=============================
-LongInt::LongInt(const char* str)
+LongInt::LongInt(char* str)
 {
 	int i=0;
+
 	IsPositive=true;
 	int count=0;
 	Zero();
 	while(str[count]!='\0')
 		count++;
-
+	if(str[0] == '-') {
+	  IsPositive = false;
+  }
 	i=0;
 	while(str[i]!='\0')
 	{
@@ -102,7 +105,6 @@ void LongInt::Show()
 	
 	while(MyInt[headIndex] == 0)
 		headIndex--;
-	printf("%d\n",headIndex);
 	if(headIndex > MAX -1)
 		headIndex = MAXLONG;
 	else
@@ -235,7 +237,11 @@ LongInt LongInt::operator-(LongInt b)
 //=============================
 LongInt LongInt::Multi(LongInt b)
 {
-	LongInt temp;
+  LongInt temp;
+  if(IsPositive != b.IsPositive){
+    temp.IsPositive = false;
+  }
+	
 	for(int i=0;i<MAX;i++)
 	{
 		temp.MyInt[i]=MyInt[i]*b.MyInt[i];
