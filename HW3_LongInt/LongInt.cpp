@@ -74,7 +74,7 @@ LongInt::LongInt(int num)
 	}
 }
 //=============================
-LongInt::LongInt(const char* str)
+LongInt::LongInt(char* str)
 {
 	int i=0;
 	IsPositive=true;

@@ -48,7 +48,7 @@ int main() {
 			//printf("\n%d\n",index);
 			binAns.NotBin(index+1, MAX-1);
 			binAns.PrintBin();
-			
+			printf(" (%d %c %d = %d)",bin1.dec,opr,bin2.dec,binAns.dec);
 		}else {
 			binAns.DecToBin();
 			binAns.PrintBin();
